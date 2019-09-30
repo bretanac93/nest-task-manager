@@ -30,4 +30,10 @@ export class TasksService {
   remove(id: string): Task[] {
     return this.tasks.filter(t => t.id !== id);
   }
+
+  update(id: string, status: TaskStatus) {
+    const task = this.getOne(id);
+    task.status = status;
+    return task;
+  }
 }
