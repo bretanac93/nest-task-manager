@@ -12,6 +12,10 @@ export class TasksService {
     return this.tasks;
   }
 
+  getOne(id: string): Task {
+    return this.tasks.find(t => t.id === id);
+  }
+
   create({ title, description }: CreateTaskDto): Task {
     const task: Task = {
       id: uuid(),
@@ -21,5 +25,9 @@ export class TasksService {
     };
     this.tasks.push(task);
     return task;
+  }
+
+  remove(id: string): Task[] {
+    return this.tasks.filter(t => t.id !== id);
   }
 }
