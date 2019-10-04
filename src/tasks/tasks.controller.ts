@@ -20,6 +20,8 @@ import { TaskStatus } from './task-status.enum';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe';
+import { GetUser } from '../auth/get-user.decorator';
+import { User } from '../auth/user.entity';
 
 @Controller('tasks')
 @UseGuards(AuthGuard())
@@ -27,27 +29,37 @@ export class TasksController {
   constructor(private tasksService: TasksService) {}
 
   @Get()
-  get(@Query(ValidationPipe) filterDto: GetTasksFilterDto): Promise<Task[]> {
-    return this.tasksService.get(filterDto);
+  get(
+    @GetUser() user: User,
+    @Query(ValidationPipe) filterDto: GetTasksFilterDto,
+  ): Promise<Task[]> {
+    return this.tasksService.get(filterDto, user);
   }
 
   @Get('/:id')
-  async one(@Param('id', ParseIntPipe) id: number): Promise<Task> {
-    return this.tasksService.getOne(id);
+  async one(
+    @GetUser() user: User,
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<Task> {
+    return this.tasksService.getOne(id, user);
   }
 
   @Post()
   @UsePipes(ValidationPipe)
-  create(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
-    return this.tasksService.create(createTaskDto);
+  create(
+    @GetUser() user: User,
+    @Body() createTaskDto: CreateTaskDto,
+  ): Promise<Task> {
+    return this.tasksService.create(createTaskDto, user);
   }
 
   @Patch('/:id/status')
   update(
+    @GetUser() user: User,
     @Param('id', ParseIntPipe) id: number,
     @Body('status', TaskStatusValidationPipe) status: TaskStatus,
   ): Promise<Task> {
-    return this.tasksService.update(id, status);
+    return this.tasksService.update(id, status, user);
   }
 
   @Delete('/:id')
