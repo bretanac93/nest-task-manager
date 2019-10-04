@@ -26,10 +26,7 @@ export class TasksController {
 
   @Get()
   get(@Query(ValidationPipe) filterDto: GetTasksFilterDto): Promise<Task[]> {
-    if (!Object.keys(filterDto).length) {
-      return this.tasksService.getAll();
-    }
-    return this.tasksService.filter(filterDto);
+    return this.tasksService.get(filterDto);
   }
 
   @Get('/:id')
@@ -52,7 +49,7 @@ export class TasksController {
   }
 
   @Delete('/:id')
-  remove(@Param('id', ParseIntPipe) id: number): Promise<Task[]> {
+  remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.tasksService.remove(id);
   }
 }
