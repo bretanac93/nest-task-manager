@@ -17,7 +17,7 @@ export class AuthService {
     return this.userRepository.register(credentials);
   }
 
-  async login(credentials: AuthCredentialsDto): Promise<JwtPayload> {
+  async login(credentials: AuthCredentialsDto): Promise<{ token: string }> {
     const username = await this.userRepository.validateUserPassword(
       credentials,
     );
