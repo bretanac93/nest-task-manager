@@ -1,4 +1,5 @@
 import { BaseEntity, PrimaryGeneratedColumn, Entity, Column } from 'typeorm';
+
 import { TaskStatus } from './task-status.enum';
 
 @Entity()
@@ -12,6 +13,8 @@ export class Task extends BaseEntity {
   @Column()
   description: string;
 
-  @Column()
+  @Column({
+    default: TaskStatus.Open,
+  })
   status: TaskStatus;
 }

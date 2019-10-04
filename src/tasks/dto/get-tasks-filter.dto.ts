@@ -4,7 +4,7 @@ import { IsOptional, IsIn, IsNotEmpty } from 'class-validator';
 export class GetTasksFilterDto {
   @IsOptional()
   @IsNotEmpty()
-  search: string;
+  searchTerm: string;
 
   @IsOptional()
   @IsIn(Object.values(TaskStatus))
