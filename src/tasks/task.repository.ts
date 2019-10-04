@@ -4,9 +4,11 @@ import { Task } from './task.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { User } from '../auth/user.entity';
+import { Logger } from '@nestjs/common';
 
 @EntityRepository(Task)
 export class TaskRepository extends Repository<Task> {
+  private logger = new Logger(this.constructor.name);
   async filter(filterDto: GetTasksFilterDto, user: User) {
     const { searchTerm, status } = filterDto;
     const query = this.createQueryBuilder('task');
