@@ -1,0 +1,8 @@
+db:
+  host: '127.0.0.1'
+  username: 'tm_user'
+  password: 'tm_pass'
+  synchronize: true
+
+jwt:
+  secret: 'ChangeMe'
