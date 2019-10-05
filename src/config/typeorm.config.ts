@@ -1,4 +1,5 @@
 import * as path from 'path';
+import * as config from 'config';
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 
@@ -7,13 +8,13 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   createTypeOrmOptions(): TypeOrmModuleOptions {
     return {
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'tm_user',
-      password: 'tm_pass',
-      database: 'task_management',
+      host: config.get('db.host') || process.env.DB_HOST,
+      port: config.get('db.port'),
+      username: config.get('db.username') || process.env.DB_USER,
+      password: config.get('db.password') || process.env.DB_PASS,
+      database: config.get('db.database') || process.env.DB_NAME,
       entities: [path.join(__dirname, '../**/*.entity{.ts,.js}')],
-      synchronize: true,
+      synchronize: config.get('db.synchronize'),
     };
   }
 }
